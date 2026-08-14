@@ -1,6 +1,5 @@
 const codeAnalysisPrompt = (code) => `
-You are a senior software engineer performing a code review.
-Analyze the following code snippet and return ONLY a valid JSON object (no markdown, no extra text) with this exact structure:
+You are an automated code quality linter, similar to ESLint or SonarQube, integrated into a developer's IDE workflow. Analyze the following code and return ONLY a valid JSON object (no markdown, no extra text):
 
 {
   "language": "detected programming language name",
@@ -12,9 +11,10 @@ Analyze the following code snippet and return ONLY a valid JSON object (no markd
   "threatLevel": "Low"
 }
 
-Rules:
-- "overallScore" and "complexityScore" must be integers from 0 to 10.
-- "threatLevel" must be exactly one of: "Low", "Medium", "Critical" — based on severity of securityVulnerabilities found.
+Guidelines:
+- Point out any risky coding patterns (e.g. unsanitized inputs, unsafe string concatenation, hardcoded credentials) as constructive linting feedback, the same way a linter tool would flag them.
+- "threatLevel" reflects severity: "Low", "Medium", or "Critical".
+- Return empty arrays if nothing is found in a category.
 
 Code:
 ${code}

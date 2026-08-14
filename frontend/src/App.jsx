@@ -4,6 +4,7 @@ import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Analyzer from './pages/Analyzer.jsx';
+import AnalyticsDashboard from './pages/AnalyticsDashboard.jsx';
 
 function App() {
   return (
@@ -27,7 +28,17 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/dashboard/analytics"
+        element={
+          <ProtectedRoute>
+            <AnalyticsDashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
+    
     
   );
 }

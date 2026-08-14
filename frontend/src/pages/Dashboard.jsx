@@ -23,11 +23,11 @@ const Dashboard = () => {
         >
           Go to Analyzer
         </Link>
-      </div>
 
-      <p className="text-slate-400 mt-6">
-        Analytics charts coming soon...
-      </p>
+        <Link to="/dashboard/analytics" className="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg">
+          View Analytics
+        </Link>
+      </div>
     </div>
   );
 };
