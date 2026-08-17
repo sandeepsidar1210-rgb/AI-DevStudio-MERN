@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, LogOut, Code2, BarChart3 } from 'lucide-react';
+import { Sparkles, LogOut, Code2, BarChart3, History as HistoryIcon } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 const Navbar = () => {
@@ -27,6 +27,10 @@ const Navbar = () => {
           <Link to="/analyzer" className={linkClass('/analyzer')}>
             <Code2 size={16} />
             <span className="hidden sm:inline">Analyzer</span>
+          </Link>
+          <Link to="/history" className={linkClass('/history')}>
+            <HistoryIcon size={16} />
+            <span className="hidden sm:inline">History</span>
           </Link>
           <Link to="/dashboard/analytics" className={linkClass('/dashboard/analytics')}>
             <BarChart3 size={16} />

@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Analyzer from './pages/Analyzer.jsx';
 import AnalyticsDashboard from './pages/AnalyticsDashboard.jsx';
+import History from './pages/History.jsx';
+
 
 function App() {
   return (
@@ -37,6 +39,14 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/history"
+        element={
+          <ProtectedRoute>
+            <History/>
+          </ProtectedRoute>
+      }
+/>
     </Routes>
     
     
