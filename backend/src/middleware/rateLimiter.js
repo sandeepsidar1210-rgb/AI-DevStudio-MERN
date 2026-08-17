@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/User.model.js');
 
 const FREE_TIER_LIMIT = 3;
 
