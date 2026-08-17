@@ -8,8 +8,19 @@ const analyticsRoutes = require('./routes/analyticsRoutes.js')
 
 app.use(express.json());
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://ai-dev-studio-mern.vercel.app',
+];
+
 app.use(cors({
-  origin: 'https://ai-dev-studio-mern.vercel.app', // tumhara actual Vercel URL
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 }));
 
 app.get('/', (req, res) => {

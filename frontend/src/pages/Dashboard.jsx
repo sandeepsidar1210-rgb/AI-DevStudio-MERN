@@ -1,30 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Code2, BarChart3, LogOut, Sparkles } from 'lucide-react';
-import { useAuth } from '../hooks/useAuth.js';
+import { Code2, BarChart3 } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import Navbar from '../components/Navbar';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      {/* Top nav */}
-      <nav className="border-b border-slate-800 px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="bg-indigo-600 p-1.5 rounded-lg">
-            <Sparkles size={18} />
-          </div>
-          <span className="font-semibold">AI-DevStudio</span>
-        </div>
-        <button
-          onClick={logout}
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
-      </nav>
+      <Navbar />
 
-      {/* Hero */}
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
         <p className="text-indigo-400 text-sm font-medium mb-2">Welcome back</p>
         <h1 className="text-4xl font-bold mb-3">
@@ -36,7 +21,6 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* Action cards */}
       <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link
           to="/analyzer"
