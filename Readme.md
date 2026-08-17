@@ -1,5 +1,9 @@
 # AI-DevStudio: Intelligent Code & Content Analyzer
 
+## Live Demo
+- Frontend: https://ai-dev-studio-mern.vercel.app
+- Backend API: https://ai-devstudio-mern.onrender.com
+
 ### Capstone Project — Full-Stack Developer Track (EduLinkUp Internship)
 
 A MERN stack Micro-SaaS application that analyzes source code snippets and text content using the Gemini API — surfacing performance issues, security vulnerabilities, and SEO suggestions, backed by an analytics dashboard built on MongoDB aggregation pipelines.
