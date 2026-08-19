@@ -6,6 +6,7 @@ const app = express();
 const authRoutes = require('./routes/authRoutes.js')
 const analysisRoutes = require('./routes/analysisRoutes.js')
 const analyticsRoutes = require('./routes/analyticsRoutes.js')
+const paymentRoutes = require('./routes/paymentRoutes.js');
 
 app.use(express.json());
 
@@ -31,5 +32,6 @@ app.get('/', (req, res) => {
 app.use ('/api/auth', authRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/payment', paymentRoutes);
 
 module.exports = app;
