@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
 
   // @route GET /api/auth/me
 
-  const getMe = async (req, res) => {
+const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
     res.status(200).json(user);
