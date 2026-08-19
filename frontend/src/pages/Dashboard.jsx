@@ -1,21 +1,39 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Code2, BarChart3, Crown } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link , useLocation } from 'react-router-dom';
+import { Code2, BarChart3, Crown, Zap } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth.js';
 import Navbar from '../components/Navbar.jsx';
 import api from '../services/api.js';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const location = useLocation();
   const [upgrading, setUpgrading] = useState(false);
+  const [freshUser, setFreshUser] = useState(null);
+
+  useEffect(() => {
+  const fetchMe = async () => {
+    try {
+      const { data } = await api.get('/auth/me');
+      setFreshUser(data);
+    } catch (err) {
+      console.error('Failed to fetch user info', err);
+    }
+  };
+  fetchMe();
+
+  window.addEventListener('focus', fetchMe);
+  return () => window.removeEventListener('focus', fetchMe);
+}, [location.key]);
+
+  const currentUser = freshUser || user;
+  const isPaid = currentUser?.tier === 'paid';
 
   const handleUpgrade = async () => {
     setUpgrading(true);
     try {
-      // Step 1: Backend se order banwao
       const { data: order } = await api.post('/payment/create-order');
 
-      // Step 2: Razorpay Checkout kholo
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
@@ -24,7 +42,6 @@ const Dashboard = () => {
         description: 'Upgrade to Paid Tier',
         order_id: order.id,
         handler: async (response) => {
-          // Step 3: Payment success — backend se verify karwao
           try {
             await api.post('/payment/verify', {
               razorpay_order_id: response.razorpay_order_id,
@@ -38,8 +55,8 @@ const Dashboard = () => {
           }
         },
         prefill: {
-          name: user?.name,
-          email: user?.email,
+          name: currentUser?.name,
+          email: currentUser?.email,
         },
         theme: { color: '#4F46E5' },
       };
@@ -58,26 +75,39 @@ const Dashboard = () => {
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start flex-wrap gap-4">
           <div>
             <p className="text-indigo-400 text-sm font-medium mb-2">Welcome back</p>
-            <h1 className="text-4xl font-bold mb-3">Hey, {user?.name} 👋</h1>
+            <h1 className="text-4xl font-bold mb-3">Hey, {currentUser?.name} 👋</h1>
             <p className="text-slate-400 max-w-xl">
               Analyze your code for performance and security issues, review your content for SEO,
               and track everything on your analytics dashboard.
             </p>
           </div>
 
-          {user?.tier !== 'paid' && (
-            <button
-              onClick={handleUpgrade}
-              disabled={upgrading}
-              className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 disabled:opacity-50 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap"
-            >
-              <Crown size={16} />
-              {upgrading ? 'Loading...' : 'Upgrade to Paid'}
-            </button>
-          )}
+          <div className="flex flex-col items-end gap-2">
+            {isPaid ? (
+              <div className="flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-400 px-4 py-2 rounded-lg text-sm font-medium">
+                <Crown size={16} />
+                Paid Plan — Unlimited
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm">
+                  <Zap size={16} className="text-indigo-400" />
+                  Free Plan — {currentUser?.analysesUsedToday ?? 0}/3 used today
+                </div>
+                <button
+                  onClick={handleUpgrade}
+                  disabled={upgrading}
+                  className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 disabled:opacity-50 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap"
+                >
+                  <Crown size={16} />
+                  {upgrading ? 'Loading...' : 'Upgrade to Paid'}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
